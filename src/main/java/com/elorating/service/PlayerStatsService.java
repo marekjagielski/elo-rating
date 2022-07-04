@@ -25,7 +25,7 @@ public class PlayerStatsService {
     private MatchRepository matchRepository;
 
     public OpponentStats getOpponentStats(String playerId, String opponentId) {
-        Sort sortByDate = new Sort(Sort.Direction.DESC, "date");
+        Sort sortByDate = Sort.by(Sort.Direction.DESC, "date");
         Optional<Player> player = playerRepository.findById(playerId);
         Optional<Player> opponent = playerRepository.findById(opponentId);
         if (player.isPresent() && opponent.isPresent()) {

@@ -4,7 +4,7 @@ import com.elorating.CoreApplication;
 import com.elorating.model.League;
 import com.elorating.service.LeagueService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -16,7 +16,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.nio.charset.Charset;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringRunner.class)
 @SpringBootTest(classes = CoreApplication.class)
 @TestPropertySource(locations = "classpath:application-test.properties")
 @WebAppConfiguration

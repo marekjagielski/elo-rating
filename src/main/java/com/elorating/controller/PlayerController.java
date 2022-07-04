@@ -15,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Pattern;
+
 import java.util.List;
 
 @RestController
@@ -59,7 +60,7 @@ public class PlayerController {
     @RequestMapping(value = "/leagues/{leagueId}/players/ranking", method = RequestMethod.GET)
     @ApiOperation(value = "Get players ranking", notes = "Return active players list by league id")
     public ResponseEntity<List<Player>> getRanking(@PathVariable String leagueId) {
-        Sort sortByRating = new Sort(Sort.Direction.DESC, "rating");
+        Sort sortByRating = Sort.by(Sort.Direction.DESC, "rating");
         List<Player> ranking = playerService.getRanking(leagueId, sortByRating);
         return new ResponseEntity<>(ranking, HttpStatus.OK);
     }
