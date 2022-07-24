@@ -2,17 +2,17 @@ package com.elorating.algorithm;
 
 import com.elorating.model.Match;
 import com.elorating.model.Player;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
 
 import java.util.Arrays;
 import java.util.Collection;
 
-@RunWith(Parameterized.class)
 public class EloTest {
     private int playerOneRating;
     private int playerTwoRating;
@@ -22,7 +22,7 @@ public class EloTest {
     private int playerTwoExpectedRating;
     private Elo elo;
 
-    @Parameterized.Parameters
+    @ParameterizedTest
     public static Collection<Object[]> setParameters() {
         return Arrays.asList(new Integer[][] {
                 {1496, 1150, 1, 0, 1500, 1146},
@@ -68,7 +68,7 @@ public class EloTest {
         this.playerTwoExpectedRating = playerTwoExpectedRating;
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         Player playerOne = new Player("Player one");
         playerOne.setId("1234");
@@ -80,14 +80,14 @@ public class EloTest {
         elo = new Elo(match);
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
     }
 
     @Test
     public void getPlayersRating() throws Exception {
-        Assert.assertEquals(playerOneExpectedRating, elo.getPlayerOneRating());
+        Assertions.assertEquals(playerOneExpectedRating, elo.getPlayerOneRating());
         elo.getMatch().getPlayerOne().setRating(elo.getPlayerOneRating());
-        Assert.assertEquals(playerTwoExpectedRating, elo.getPlayerTwoRating());
+        Assertions.assertEquals(playerTwoExpectedRating, elo.getPlayerTwoRating());
     }
 }

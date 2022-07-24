@@ -6,10 +6,10 @@ import com.elorating.model.Player;
 import com.elorating.service.MatchService;
 import com.elorating.service.PlayerService;
 import org.hamcrest.Matchers;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -40,7 +40,7 @@ public class PlayerStatsControllerTest extends BaseControllerTest {
 
     private List<Player> opponents;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         mockMvc = webAppContextSetup(webApplicationContext).build();
         league = leagueService.save(new League(null, "League"));
@@ -63,7 +63,7 @@ public class PlayerStatsControllerTest extends BaseControllerTest {
         }
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         matchService.deleteAll();
         playerService.deleteAll();
@@ -93,10 +93,10 @@ public class PlayerStatsControllerTest extends BaseControllerTest {
         String jsonResult = mvcResult.getResponse().getContentAsString();
         List<LinkedHashMap> stats = objectMapper.readValue(jsonResult, List.class);
         for (LinkedHashMap stat : stats) {
-            Assert.assertEquals(RETRIES, stat.get("won"));
-            Assert.assertEquals(RETRIES, stat.get("lost"));
-            Assert.assertEquals(RETRIES, stat.get("draw"));
-            Assert.assertEquals(-1, stat.get("streak"));
+            Assertions.assertEquals(RETRIES, stat.get("won"));
+            Assertions.assertEquals(RETRIES, stat.get("lost"));
+            Assertions.assertEquals(RETRIES, stat.get("draw"));
+            Assertions.assertEquals(-1, stat.get("streak"));
         }
     }
 

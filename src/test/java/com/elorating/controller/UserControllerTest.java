@@ -7,7 +7,10 @@ import com.elorating.model.User;
 import com.elorating.service.PlayerService;
 import com.elorating.service.UserService;
 import org.hamcrest.Matchers;
-import org.junit.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.UUID;
@@ -28,13 +31,13 @@ public class UserControllerTest extends BaseControllerTest {
     @Autowired
     private PlayerService playerService;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         mockMvc = webAppContextSetup(webApplicationContext).build();
         this.league = leagueService.save(new League(null, "Test league"));
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         userService.deleteAll();
         playerService.deleteAll();
@@ -52,18 +55,6 @@ public class UserControllerTest extends BaseControllerTest {
                 .andExpect(jsonPath("$.email", is(user.getEmail())));
     }
 
-    @Ignore
-    @Test
-    public void testSignIn() throws Exception {
-        // TODO mock GoogleIdTokenVerifier to return fake User
-        String token = "example_token";
-        mockMvc.perform(post("/users/sign-in")
-                .contentType(contentType)
-                .content(token))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.email", Matchers.is("test@mail.com")));
-    }
-
     @Test
     public void testAssignLeague() throws Exception {
         User user = new User("Test user");
@@ -76,7 +67,7 @@ public class UserControllerTest extends BaseControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.leagues", Matchers.hasSize(2)));
         League updatedLeague = leagueService.getById(leagueToAssign.getId()).get();
-        Assert.assertTrue(updatedLeague.getUsers().size() == 1);
+        Assertions.assertTrue(updatedLeague.getUsers().size() == 1);
     }
 
     @Test
@@ -112,53 +103,7 @@ public class UserControllerTest extends BaseControllerTest {
                 .andExpect(jsonPath("$.email", is(userToInvite.getEmail())))
                 .andExpect(jsonPath("$.leagues[0].id", is(league.getId())));
         League updatedLeague = leagueService.getById(league.getId()).get();
-        Assert.assertEquals(updatedLeague.getUsers().size(), 1);
-    }
-
-    @Ignore // Test failing when is run with other tests. WTF?
-    @Test
-    public void testInviteNewUserWithPlayer() throws Exception {
-        User user = userService.save(new User("User who invite"));
-        User userToInvite = new User("User to invite", "t.morek@gmail.com");
-        Player player = playerService.save(new Player("Player to connect", league));
-        userToInvite.addPlayer(player);
-        userToInvite.addLeague(league);
-        String url = "/api/leagues/" + league.getId() + "/users/" + user.getId() + "/invite";
-        mockMvc.perform(post(url)
-                .contentType(contentType)
-                .header("Origin", "http://elo.com")
-                .content(objectMapper.writeValueAsString(userToInvite)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").exists())
-                .andExpect(jsonPath("$.email", is(userToInvite.getEmail())))
-                .andExpect(jsonPath("$.googleId", isEmptyOrNullString()))
-                .andExpect(jsonPath("$.invitationToken", isEmptyOrNullString()))
-                .andExpect(jsonPath("$.leagues", Matchers.hasSize(1)))
-                .andExpect(jsonPath("$.players[0].id", is(player.getId())));
-    }
-
-    @Ignore // Test failing when is run with other tests. WTF?
-    @Test
-    public void testInviteExistingUserWithPlayer() throws Exception {
-        User user = userService.save(new User("User who invite"));
-        User userToInvite = userService.save(new User("User to invite", "t.morek@gmail.com"));
-        Player player = playerService.save(new Player("Player to connect", league));
-        userToInvite.addPlayer(player);
-        userToInvite.addLeague(league);
-        String url = "/api/leagues/" + league.getId() + "/users/" + user.getId() + "/invite";
-        mockMvc.perform(post(url)
-                .contentType(contentType)
-                .header("Origin", "http://elo.com")
-                .content(objectMapper.writeValueAsString(userToInvite)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(userToInvite.getId())))
-                .andExpect(jsonPath("$.email", is(userToInvite.getEmail())))
-                .andExpect(jsonPath("$.leagues[0].id", is(league.getId())))
-                .andExpect(jsonPath("$.players[0].id", is(player.getId())));
-        League updatedLeague = leagueService.getById(league.getId()).get();
-        Player updatedPlayer = playerService.getById(player.getId()).get();
-        Assert.assertEquals(updatedLeague.getUsers().size(), 1);
-        Assert.assertEquals(updatedPlayer.getUser().getId(), userToInvite.getId());
+        Assertions.assertEquals(updatedLeague.getUsers().size(), 1);
     }
 
     @Test

@@ -4,9 +4,10 @@ import com.elorating.model.*;
 import com.elorating.service.BaseServiceTest;
 import com.elorating.utils.MatchTestUtils;
 import com.elorating.utils.PlayerTestUtils;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class EmailGeneratorTest extends BaseServiceTest {
     User user = new User("testUser", "test@email.com");
     String timezone = "GMT+1:00 Europe/Warsaw";
 
-    @Before
+    @BeforeEach
     public void setup() {
         user.setTimezone(timezone);
         league = new League("test");
@@ -47,10 +48,10 @@ public class EmailGeneratorTest extends BaseServiceTest {
         user.setEmailNotifications(setEmailNotifications(true, false, false));
         Set<EmailBuilder> scheduleMatchEmails = emailGenerator.generateEmails(match, emailGenerator.SCHEDULE_MATCH, originUrl);
 
-        Assert.assertNotNull(scheduleMatchEmails);
-        Assert.assertTrue(scheduleMatchEmails.size() == 2);
+        Assertions.assertNotNull(scheduleMatchEmails);
+        Assertions.assertTrue(scheduleMatchEmails.size() == 2);
         for (EmailBuilder email : scheduleMatchEmails) {
-            Assert.assertTrue(email.getClass() == ScheduledMatchEmail.class);
+            Assertions.assertTrue(email.getClass() == ScheduledMatchEmail.class);
         }
     }
 
@@ -59,10 +60,10 @@ public class EmailGeneratorTest extends BaseServiceTest {
         user.setEmailNotifications(setEmailNotifications(false, true, false));
         Set<EmailBuilder> editMatchEmails = emailGenerator.generateEmails(match, emailGenerator.EDIT_MATCH, originUrl);
 
-        Assert.assertNotNull(editMatchEmails);
-        Assert.assertTrue(editMatchEmails.size() == 2);
+        Assertions.assertNotNull(editMatchEmails);
+        Assertions.assertTrue(editMatchEmails.size() == 2);
         for (EmailBuilder email : editMatchEmails) {
-            Assert.assertTrue(email.getClass() == EditMatchEmail.class);
+            Assertions.assertTrue(email.getClass() == EditMatchEmail.class);
         }
     }
 
@@ -71,10 +72,10 @@ public class EmailGeneratorTest extends BaseServiceTest {
         user.setEmailNotifications(setEmailNotifications(false, false, true));
         Set<EmailBuilder> cancelMatchEmails = emailGenerator.generateEmails(match, emailGenerator.CANCEL_MATCH, originUrl);
 
-        Assert.assertNotNull(cancelMatchEmails);
-        Assert.assertTrue(cancelMatchEmails.size() == 2);
+        Assertions.assertNotNull(cancelMatchEmails);
+        Assertions.assertTrue(cancelMatchEmails.size() == 2);
         for (EmailBuilder email : cancelMatchEmails) {
-            Assert.assertTrue(email.getClass() == CancelledMatchEmail.class);
+            Assertions.assertTrue(email.getClass() == CancelledMatchEmail.class);
         }
     }
 
@@ -85,8 +86,8 @@ public class EmailGeneratorTest extends BaseServiceTest {
         Set<EmailBuilder> editMatchEmails = emailGenerator.generateEmails(match, emailGenerator.EDIT_MATCH, originUrl);
         Set<EmailBuilder> cancelMatchEmails = emailGenerator.generateEmails(match, emailGenerator.CANCEL_MATCH, originUrl);
 
-        Assert.assertTrue(scheduleMatchEmails.size() == 0);
-        Assert.assertTrue(editMatchEmails.size() == 0);
-        Assert.assertTrue(cancelMatchEmails.size() == 0);
+        Assertions.assertTrue(scheduleMatchEmails.size() == 0);
+        Assertions.assertTrue(editMatchEmails.size() == 0);
+        Assertions.assertTrue(cancelMatchEmails.size() == 0);
     }
 }

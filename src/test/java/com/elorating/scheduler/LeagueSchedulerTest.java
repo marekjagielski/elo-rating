@@ -9,20 +9,21 @@ import com.elorating.repository.LeagueRepository;
 import com.elorating.repository.MatchRepository;
 import com.elorating.repository.PlayerRepository;
 import com.elorating.repository.UserRepository;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.util.List;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = CoreApplication.class)
 @TestPropertySource(locations = "classpath:application-test.properties")
 @WebAppConfiguration
@@ -45,7 +46,7 @@ public class LeagueSchedulerTest {
     @Autowired
     private LeagueScheduler leagueScheduler;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         League leagueToRemove = leagueRepository.save(new League("League to delete"));
         League assignedLeague = addAssignedLeague();
@@ -68,7 +69,7 @@ public class LeagueSchedulerTest {
         return leagueRepository.save(otherLeague);
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         matchRepository.deleteAll();
         playerRepository.deleteAll();
@@ -82,9 +83,9 @@ public class LeagueSchedulerTest {
         List matches = matchRepository.findAll();
         List players = playerRepository.findAll();
         List leagues = leagueRepository.findAll();
-        Assert.assertEquals(matches.size(), RETRIES);
-        Assert.assertEquals(players.size(), RETRIES * 2);
-        Assert.assertEquals(leagues.size(), 1);
+        Assertions.assertEquals(matches.size(), RETRIES);
+        Assertions.assertEquals(players.size(), RETRIES * 2);
+        Assertions.assertEquals(leagues.size(), 1);
     }
 
 }

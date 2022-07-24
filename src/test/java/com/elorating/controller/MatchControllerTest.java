@@ -9,7 +9,7 @@ import com.elorating.utils.MatchTestUtils;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,12 +114,12 @@ public class MatchControllerTest extends BaseControllerTest {
             .andExpect(jsonPath("$.date").exists());
         playerOne = playerService.getById(playerOne.getId()).get();
         playerTwo = playerService.getById(playerTwo.getId()).get();
-        Assert.assertEquals(1024, playerOne.getRating());
-        Assert.assertEquals(976, playerTwo.getRating());
-        Assert.assertEquals(1, playerOne.getStatistics().getWon());
-        Assert.assertEquals(0, playerOne.getStatistics().getLost());
-        Assert.assertEquals(0, playerTwo.getStatistics().getWon());
-        Assert.assertEquals(1, playerTwo.getStatistics().getLost());
+        Assertions.assertEquals(1024, playerOne.getRating());
+        Assertions.assertEquals(976, playerTwo.getRating());
+        Assertions.assertEquals(1, playerOne.getStatistics().getWon());
+        Assertions.assertEquals(0, playerOne.getStatistics().getLost());
+        Assertions.assertEquals(0, playerTwo.getStatistics().getWon());
+        Assertions.assertEquals(1, playerTwo.getStatistics().getLost());
     }
 
     @Test
@@ -135,14 +135,14 @@ public class MatchControllerTest extends BaseControllerTest {
                 .andExpect(status().isOk());
         playerOne = playerService.getById(playerOne.getId()).get();
         playerTwo = playerService.getById(playerTwo.getId()).get();
-        Assert.assertEquals(1000, playerOne.getRating());
-        Assert.assertEquals(1000, playerTwo.getRating());
-        Assert.assertEquals(0, playerOne.getStatistics().getWon());
-        Assert.assertEquals(0, playerOne.getStatistics().getLost());
-        Assert.assertEquals(0, playerTwo.getStatistics().getWon());
-        Assert.assertEquals(0, playerTwo.getStatistics().getLost());
-        Assert.assertEquals(1, playerOne.getStatistics().getDraw());
-        Assert.assertEquals(1, playerTwo.getStatistics().getDraw());
+        Assertions.assertEquals(1000, playerOne.getRating());
+        Assertions.assertEquals(1000, playerTwo.getRating());
+        Assertions.assertEquals(0, playerOne.getStatistics().getWon());
+        Assertions.assertEquals(0, playerOne.getStatistics().getLost());
+        Assertions.assertEquals(0, playerTwo.getStatistics().getWon());
+        Assertions.assertEquals(0, playerTwo.getStatistics().getLost());
+        Assertions.assertEquals(1, playerOne.getStatistics().getDraw());
+        Assertions.assertEquals(1, playerTwo.getStatistics().getDraw());
     }
 
     @Test
@@ -170,7 +170,7 @@ public class MatchControllerTest extends BaseControllerTest {
         mockMvc.perform(delete(url)
                 .contentType(contentType))
                 .andExpect(status().isOk());
-        Assert.assertFalse(matchService.getById(match.getId()).isPresent());
+        Assertions.assertFalse(matchService.getById(match.getId()).isPresent());
     }
 
     @Test
@@ -215,18 +215,18 @@ public class MatchControllerTest extends BaseControllerTest {
         mockMvc.perform(post(revertUrl)
                 .contentType(contentType))
                 .andExpect(status().isOk());
-        Assert.assertFalse(matchService.getById(matchId).isPresent());
+        Assertions.assertFalse(matchService.getById(matchId).isPresent());
         playerOne = playerService.getById(playerOne.getId()).get();
-        Assert.assertEquals(1200, playerOne.getRating());
+        Assertions.assertEquals(1200, playerOne.getRating());
         playerTwo = playerService.getById(playerTwo.getId()).get();
-        Assert.assertEquals(0, playerOne.getStatistics().getWon());
-        Assert.assertEquals(0, playerOne.getStatistics().getLost());
-        Assert.assertEquals(0, playerOne.getStatistics().getDraw());
+        Assertions.assertEquals(0, playerOne.getStatistics().getWon());
+        Assertions.assertEquals(0, playerOne.getStatistics().getLost());
+        Assertions.assertEquals(0, playerOne.getStatistics().getDraw());
         playerTwo = playerService.getById(playerTwo.getId()).get();
-        Assert.assertEquals(800, playerTwo.getRating());
-        Assert.assertEquals(0, playerTwo.getStatistics().getWon());
-        Assert.assertEquals(0, playerTwo.getStatistics().getLost());
-        Assert.assertEquals(0, playerTwo.getStatistics().getDraw());
+        Assertions.assertEquals(800, playerTwo.getRating());
+        Assertions.assertEquals(0, playerTwo.getStatistics().getWon());
+        Assertions.assertEquals(0, playerTwo.getStatistics().getLost());
+        Assertions.assertEquals(0, playerTwo.getStatistics().getDraw());
     }
 
     @Test

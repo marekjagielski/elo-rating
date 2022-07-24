@@ -10,10 +10,11 @@ import com.elorating.utils.DateUtils;
 import com.elorating.utils.MatchTestUtils;
 import com.elorating.utils.PlayerTestUtils;
 import com.elorating.utils.SortUtils;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,7 @@ public class MatchServiceTest extends BaseServiceTest {
     private List<Player> players = new ArrayList<>();
     private List<Match> matchList = new ArrayList<>();
 
-    @Before
+    @BeforeEach
     public void setup() {
         this.league = new League("rescheduleTestLeague");
         this.league = this.leagueRepository.save(this.league);
@@ -57,7 +58,7 @@ public class MatchServiceTest extends BaseServiceTest {
         }
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         leagueRepository.deleteAll();
         playerRepository.deleteAll();
@@ -77,9 +78,9 @@ public class MatchServiceTest extends BaseServiceTest {
             logger.info("Match ID: " + newMatch.getId());
             logger.info(DateUtils.getDateTime(oldMatch.getDate()) + " => " + DateUtils.getDateTime(newMatch.getDate()));
             if (i < MATCHES_TO_DELAY) {
-                Assert.assertFalse("Matches should not have same date", oldMatch.getDate().getTime() == newMatch.getDate().getTime());
+                Assertions.assertFalse(oldMatch.getDate().getTime() == newMatch.getDate().getTime());
             } else {
-                Assert.assertTrue(oldMatch.getDate().getTime() == newMatch.getDate().getTime());
+                Assertions.assertTrue(oldMatch.getDate().getTime() == newMatch.getDate().getTime());
             }
         }
     }
@@ -100,16 +101,10 @@ public class MatchServiceTest extends BaseServiceTest {
             if ((i + 1) < this.matchList.size()) {
                 Match nextMatch = this.matchList.get(i + 1);
                 logger.info("Next match time: " + DateUtils.getDateTime(nextMatch.getDate()));
-                Assert.assertTrue(
-                        "Matches should not have the same time, " + DateUtils.getDateTime(newMatch.getDate()) + " | " + DateUtils.getDateTime(nextMatch.getDate()),
-                        !DateUtils.getDateTime(newMatch.getDate()).equals(DateUtils.getDateTime(nextMatch.getDate())));
-                Assert.assertTrue(
-                        "Next Match should have date in the future",
-                        nextMatch.getDate().getTime() > newMatch.getDate().getTime());
+                Assertions.assertTrue(!DateUtils.getDateTime(newMatch.getDate()).equals(DateUtils.getDateTime(nextMatch.getDate())));
+                Assertions.assertTrue(nextMatch.getDate().getTime() > newMatch.getDate().getTime());
                 Date nextMatchExpectedDate = DateUtils.adjustTimeByMinutesIntoFuture(newMatch.getDate(), MINUTES);
-                Assert.assertTrue(
-                        "Next match should have date: " + DateUtils.getDateTime(nextMatchExpectedDate),
-                        DateUtils.getDateTime(nextMatch.getDate()).equals(DateUtils.getDateTime(nextMatchExpectedDate)));
+                Assertions.assertTrue(DateUtils.getDateTime(nextMatch.getDate()).equals(DateUtils.getDateTime(nextMatchExpectedDate)));
             }
         }
     }
@@ -138,14 +133,10 @@ public class MatchServiceTest extends BaseServiceTest {
             logger.info("Match " + i + " ID: " + newMatch.getId());
             logger.info(DateUtils.getDateTime(oldMatch.getDate()) + " => " + DateUtils.getDateTime(newMatch.getDate()));
             if (i == 0) {
-                Assert.assertTrue(
-                        "New match day should be " + MINUTES + " into the future",
-                        DateUtils.getDateTime(newMatch.getDate()).equals(DateUtils.getDateTime(DateUtils.adjustTimeByMinutesIntoFuture(oldMatch.getDate(), MINUTES))));
+                Assertions.assertTrue(DateUtils.getDateTime(newMatch.getDate()).equals(DateUtils.getDateTime(DateUtils.adjustTimeByMinutesIntoFuture(oldMatch.getDate(), MINUTES))));
             } else {
                 Date previousMatchDate = this.matchList.get(i - 1).getDate();
-                Assert.assertTrue(
-                        "New match time should be: " + DateUtils.getDateTime(DateUtils.adjustTimeByMinutesIntoFuture(previousMatchDate, MINUTES)) + ", is: " + DateUtils.getDateTime(newMatch.getDate()),
-                        DateUtils.getDateTime(newMatch.getDate()).equals(DateUtils.getDateTime(DateUtils.adjustTimeByMinutesIntoFuture(previousMatchDate, MINUTES))));
+                Assertions.assertTrue(DateUtils.getDateTime(newMatch.getDate()).equals(DateUtils.getDateTime(DateUtils.adjustTimeByMinutesIntoFuture(previousMatchDate, MINUTES))));
             }
         }
 

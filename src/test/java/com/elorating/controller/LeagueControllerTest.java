@@ -4,8 +4,8 @@ import com.elorating.model.League;
 import com.elorating.service.LeagueService;
 import com.elorating.utils.LeagueTestUtils;
 import org.hamcrest.Matchers;
-import org.junit.jupiter.api.After;
-import org.junit.jupiter.api.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -36,7 +36,7 @@ public class LeagueControllerTest extends BaseControllerTest {
     @InjectMocks
     private LeagueController leagueController;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         mockMvc = webAppContextSetup(webApplicationContext).build();
         league = new League("testID1", "League");
@@ -45,7 +45,7 @@ public class LeagueControllerTest extends BaseControllerTest {
         this.mockMvc = MockMvcBuilders.standaloneSetup(leagueController).build();
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
     }
 

@@ -6,8 +6,8 @@ import com.elorating.model.Player;
 import com.elorating.service.MatchService;
 import com.elorating.service.PlayerService;
 import org.hamcrest.Matchers;
-import org.junit.jupiter.api.After;
-import org.junit.jupiter.api.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -34,7 +34,7 @@ public class PlayerMatchesControllerTest extends BaseControllerTest {
 
     private Player playerTwo;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         mockMvc = webAppContextSetup(webApplicationContext).build();
         league = leagueService.save(new League(null, "League"));
@@ -47,7 +47,7 @@ public class PlayerMatchesControllerTest extends BaseControllerTest {
         }
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         matchService.deleteAll();
         playerService.deleteAll();

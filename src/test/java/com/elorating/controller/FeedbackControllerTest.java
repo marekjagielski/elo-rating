@@ -1,9 +1,10 @@
 package com.elorating.controller;
 
 import com.elorating.model.Feedback;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.hamcrest.Matchers.is;
@@ -13,12 +14,12 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 
 public class FeedbackControllerTest extends BaseControllerTest {
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         mockMvc = webAppContextSetup(webApplicationContext).build();
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception { }
 
     @Test

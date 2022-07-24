@@ -5,9 +5,9 @@ import com.elorating.model.Player;
 import com.elorating.service.MatchService;
 import com.elorating.service.PlayerService;
 import org.hamcrest.Matchers;
-import org.junit.jupiter.api.After;
-import org.junit.jupiter.api.Assert;
-import org.junit.jupiter.api.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -27,7 +27,7 @@ public class PlayerControllerTest extends BaseControllerTest {
     @Autowired
     private MatchService matchService;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         mockMvc = webAppContextSetup(webApplicationContext).build();
         league = leagueService.save(new League(null, "League"));
@@ -36,7 +36,7 @@ public class PlayerControllerTest extends BaseControllerTest {
         }
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         matchService.deleteAll();
         playerService.deleteAll();
@@ -128,7 +128,7 @@ public class PlayerControllerTest extends BaseControllerTest {
         mockMvc.perform(delete(url)
                 .contentType(contentType))
                 .andExpect(status().isOk());
-        Assert.assertFalse(playerService.getById(player.getId()).isPresent());
+        Assertions.assertFalse(playerService.getById(player.getId()).isPresent());
     }
 
     @Test
