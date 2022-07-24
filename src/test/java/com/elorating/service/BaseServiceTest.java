@@ -1,10 +1,11 @@
 package com.elorating.service;
 
 import com.elorating.CoreApplication;
-import org.junit.runner.RunWith;
+
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 /**
@@ -12,7 +13,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
  */
 @SpringBootTest(classes = CoreApplication.class)
 @TestPropertySource(locations = "classpath:application-test.properties")
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @WebAppConfiguration
 public abstract class BaseServiceTest {
 }

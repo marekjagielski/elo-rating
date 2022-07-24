@@ -1,15 +1,13 @@
 package com.elorating.model;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-
 import java.util.Arrays;
 import java.util.Collection;
 
-@RunWith(Parameterized.class)
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+
 public class PlayerTest {
     private int playerRating;
     private int opponentRating;
@@ -17,7 +15,7 @@ public class PlayerTest {
     private Player player;
     private Player opponent;
 
-    @Parameterized.Parameters
+    @ParameterizedTest
     public static Collection<Object[]> setParameters() {
         return Arrays.asList(new Number[][] {
                 {1496, 1150, 0.879926688},
@@ -41,7 +39,7 @@ public class PlayerTest {
         this.playerExpected = playerExpected;
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         player = new Player("Player one");
         player.setRating(playerRating);
@@ -51,6 +49,6 @@ public class PlayerTest {
 
     @Test
     public void testGetEstimatedRate() throws Exception {
-        Assert.assertEquals(playerExpected, player.getExpectedScore(opponent), 0.000001);
+        Assertions.assertEquals(playerExpected, player.getExpectedScore(opponent), 0.000001);
     }
 }

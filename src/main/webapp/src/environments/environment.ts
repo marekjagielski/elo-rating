@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  serverUrl: '/api',
+  serverUrl: 'http://localhost:8080/api',
   googleClientId: '146308360723-unuhgufmab9e4knd6ibupei68t18grni.apps.googleusercontent.com',
   matchesRefreshing: false,
   matchesRefreshTime: 5000,

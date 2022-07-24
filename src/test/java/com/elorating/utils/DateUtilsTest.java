@@ -1,13 +1,13 @@
 package com.elorating.utils;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class DateUtilsTest {
 
@@ -20,7 +20,7 @@ public class DateUtilsTest {
     private Date dateGMT;
     private String expectedDateString;
 
-    @Before
+    @BeforeEach
     public void setup() {
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(GMT_TIMEZONE));
         TimeZone timeZone = calendar.getTimeZone();
@@ -38,36 +38,36 @@ public class DateUtilsTest {
     @Test
     public void test_getDateTimeGMTString() {
         String dateString = DateUtils.getDateTime(dateGMT, GMT_TIMEZONE);
-        Assert.assertTrue(dateString.contains(expectedDateString));
+        Assertions.assertTrue(dateString.contains(expectedDateString));
     }
 
     @Test
     public void test_getDateTimeGMTtoGMT1String() {
         String dateString = DateUtils.getDateTime(dateGMT, GMT1_TIMEZONE);
         setExpectedDateString(HOURS + 1, MINUTES);
-        Assert.assertTrue(dateString.contains(expectedDateString));
+        Assertions.assertTrue(dateString.contains(expectedDateString));
     }
 
     @Test
     public void test_validateTimezone_success() {
         String correctTimezone = "GMT+1:00 " + GMT1_TIMEZONE;
-        Assert.assertTrue(DateUtils.validateTimezone(correctTimezone));
+        Assertions.assertTrue(DateUtils.validateTimezone(correctTimezone));
 
         correctTimezone = GMT1_TIMEZONE;
-        Assert.assertTrue(DateUtils.validateTimezone(correctTimezone));
+        Assertions.assertTrue(DateUtils.validateTimezone(correctTimezone));
     }
 
     @Test
     public void test_validateIncorrectTimezone_success() {
         String correctTimezone = "GMT0:00 Incorrect/Timezone";
-        Assert.assertFalse(DateUtils.validateTimezone(correctTimezone));
+        Assertions.assertFalse(DateUtils.validateTimezone(correctTimezone));
     }
 
     @Test
     public void test_parseTimezoneStringToTimezoneID_success() {
         String timezone = "GMT+1:00 " + GMT1_TIMEZONE;
-        Assert.assertTrue(DateUtils.parseTimezoneStringToTimezoneID(timezone).equals(GMT1_TIMEZONE));
-        Assert.assertTrue(DateUtils.parseTimezoneStringToTimezoneID(timezone).indexOf(" ") == -1);
+        Assertions.assertTrue(DateUtils.parseTimezoneStringToTimezoneID(timezone).equals(GMT1_TIMEZONE));
+        Assertions.assertTrue(DateUtils.parseTimezoneStringToTimezoneID(timezone).indexOf(" ") == -1);
     }
 }
 

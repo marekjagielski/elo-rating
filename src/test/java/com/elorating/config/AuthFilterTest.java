@@ -6,13 +6,13 @@ import com.elorating.repository.LeagueRepository;
 import com.elorating.repository.UserRepository;
 import com.elorating.service.GoogleAuthService;
 import io.swagger.models.HttpMethod;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +24,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class AuthFilterTest {
 
     private static final String USER_TOKEN = "1a2b3c";
@@ -46,7 +46,7 @@ public class AuthFilterTest {
     @InjectMocks
     private AuthFilter authFilter;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         doNothing().when(filterChain).doFilter(any(), any());
         doNothing().when(response).sendError(anyInt(), anyString());

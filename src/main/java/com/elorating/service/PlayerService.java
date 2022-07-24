@@ -112,7 +112,7 @@ public class PlayerService implements RepositoryService<Player> {
 
     private Date getPlayerLastMatchDate(String playerId) {
         String dateFieldToSort = "date";
-        Sort sort = new Sort(Sort.Direction.DESC, dateFieldToSort);
+        Sort sort = Sort.by(Sort.Direction.DESC, dateFieldToSort);
         PageRequest pageRequest = PageRequest.of(0, 1, sort);
         Page<Match> page = matchRepository.findCompletedByPlayerId(playerId, pageRequest);
         Optional<Date> date = page.stream().findFirst().map(Match::getDate);
